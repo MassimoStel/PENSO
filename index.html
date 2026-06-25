@@ -1,0 +1,1981 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PENSO · Cognitive Impact of Large Language Models</title>
+  <meta name="description" content="A portfolio-style project update page for PENSO, the FIS2/MUR project at CogNosco Lab on the cognitive impact of large language models." />
+  <meta name="theme-color" content="#eaf7ff" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6fbff;
+      --paper: #ffffff;
+      --ink: #0c1b2a;
+      --muted: #5c6e82;
+      --blue-900: #072a45;
+      --blue-800: #083b63;
+      --blue-700: #075985;
+      --blue-600: #0284c7;
+      --blue-500: #0ea5e9;
+      --blue-300: #7dd3fc;
+      --blue-200: #bae6fd;
+      --blue-100: #e0f2fe;
+      --blue-050: #f0f9ff;
+      --cyan: #2dd4bf;
+      --violet: #7c3aed;
+      --rose: #f472b6;
+      --line: rgba(7, 89, 133, 0.16);
+      --shadow: 0 24px 70px rgba(6, 54, 91, 0.12);
+      --soft-shadow: 0 12px 36px rgba(6, 54, 91, 0.10);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(125, 211, 252, .45), transparent 28rem),
+        radial-gradient(circle at 90% 4%, rgba(14, 165, 233, .22), transparent 22rem),
+        linear-gradient(180deg, #ffffff 0%, #f7fcff 40%, #f2f9ff 100%);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible { outline: 4px solid rgba(14, 165, 233, .35); outline-offset: 4px; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(100% - 40px, var(--container));
+      margin: 0 auto;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 18px;
+      background: var(--blue-800);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      z-index: 999;
+      transition: top .2s ease;
+    }
+    .skip-link:focus { top: 16px; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(255,255,255,.78);
+      border-bottom: 1px solid rgba(14, 165, 233, .13);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      color: var(--blue-900);
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #ffffff, #ddf4ff);
+      border: 1px solid rgba(14,165,233,.22);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(14,165,233,.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .brand-mark::before, .brand-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: var(--blue-600);
+      box-shadow: 13px -8px 0 var(--blue-300), -8px 10px 0 var(--blue-900);
+      width: 6px;
+      height: 6px;
+    }
+    .brand-mark::after {
+      width: 28px;
+      height: 1.8px;
+      border-radius: 99px;
+      background: rgba(7, 89, 133, .4);
+      box-shadow: none;
+      transform: rotate(-27deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 700;
+      color: #36556d;
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .nav-links a:hover {
+      background: var(--blue-100);
+      color: var(--blue-800);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      padding: 74px 0 44px;
+      overflow: hidden;
+    }
+
+    #mindCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: .52;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.06fr .94fr;
+      gap: 34px;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid rgba(14, 165, 233, .22);
+      background: rgba(255,255,255,.72);
+      color: var(--blue-800);
+      font-weight: 800;
+      font-size: 13px;
+      border-radius: 999px;
+      box-shadow: 0 10px 26px rgba(14, 165, 233, .10);
+      backdrop-filter: blur(12px);
+    }
+    .eyebrow .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blue-500);
+      box-shadow: 0 0 0 7px rgba(14,165,233,.13);
+      animation: pulse 2.2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 7px rgba(14,165,233,.13); }
+      50% { box-shadow: 0 0 0 13px rgba(14,165,233,.05); }
+    }
+
+    h1 {
+      margin: 24px 0 18px;
+      font-size: clamp(48px, 8vw, 94px);
+      line-height: .92;
+      letter-spacing: -.075em;
+      color: var(--blue-900);
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, var(--blue-900), var(--blue-600), #09a4d8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-lede {
+      margin: 0 0 26px;
+      color: #36556d;
+      font-size: clamp(18px, 2vw, 22px);
+      max-width: 720px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 28px 0 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 850;
+      font-size: 15px;
+      border: 1px solid transparent;
+      box-shadow: 0 16px 34px rgba(7, 89, 133, .14);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      cursor: pointer;
+    }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 22px 45px rgba(7, 89, 133, .18); }
+    .button.primary { background: linear-gradient(135deg, var(--blue-800), var(--blue-500)); color: #fff; }
+    .button.secondary { background: rgba(255,255,255,.78); border-color: rgba(14,165,233,.22); color: var(--blue-800); }
+
+    .meta-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 12px;
+      max-width: 760px;
+    }
+    .meta-tile {
+      padding: 16px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(14,165,233,.16);
+      border-radius: 20px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(16px);
+    }
+    .meta-tile strong {
+      display: block;
+      color: var(--blue-900);
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+    .meta-tile span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .logo-stage {
+      position: relative;
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+    }
+
+    .logo-orbit {
+      position: absolute;
+      inset: 8%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(14,165,233,.08), transparent 44%),
+        conic-gradient(from 130deg, rgba(14,165,233,.0), rgba(14,165,233,.22), rgba(45,212,191,.16), rgba(14,165,233,.0));
+      filter: blur(.3px);
+      animation: rotate 22s linear infinite;
+      opacity: .9;
+    }
+    .logo-orbit::before,
+    .logo-orbit::after {
+      content: "LLM  0 1 1 0  ·  cognition  ·  network";
+      position: absolute;
+      color: rgba(7, 89, 133, .42);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 13px;
+      letter-spacing: .16em;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(14,165,233,.13);
+      border-radius: 999px;
+      padding: 9px 12px;
+      left: 0;
+      top: 17%;
+      transform: rotate(-18deg);
+    }
+    .logo-orbit::after {
+      content: "persona → prompt → shadow → insight";
+      left: auto;
+      right: -18px;
+      top: 68%;
+      transform: rotate(17deg);
+    }
+
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    .logo-card {
+      position: relative;
+      width: min(100%, 520px);
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(14,165,233,.18);
+      border-radius: 42px;
+      padding: 18px;
+      box-shadow: 0 38px 95px rgba(7, 42, 69, .16);
+      backdrop-filter: blur(18px);
+      transform: rotate(1deg);
+    }
+    .logo-card img {
+      border-radius: 32px;
+      border: 1px solid rgba(14,165,233,.12);
+      background: #fff;
+    }
+    .logo-caption {
+      position: absolute;
+      right: 22px;
+      bottom: 22px;
+      max-width: 260px;
+      padding: 14px 16px;
+      border-radius: 22px;
+      background: rgba(7,42,69,.82);
+      color: #eaf7ff;
+      backdrop-filter: blur(12px);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 18px 44px rgba(7, 42, 69, .2);
+    }
+
+    .section {
+      padding: 88px 0;
+      position: relative;
+    }
+    .section.tight { padding-top: 54px; }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: .78fr 1fr;
+      gap: 34px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    .section-kicker {
+      color: var(--blue-600);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin: 0;
+      color: var(--blue-900);
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+    .section-head p {
+      margin: 0;
+      color: #486276;
+      font-size: 17px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(14,165,233,.16);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .scope-panel {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 0;
+    }
+    .scope-narrative {
+      padding: 38px;
+      border-right: 1px solid rgba(14,165,233,.13);
+    }
+    .scope-narrative h3 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: -.035em;
+      color: var(--blue-900);
+    }
+    .scope-narrative p { color: #486276; margin: 0 0 18px; }
+    .mini-callout {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(224,242,254,.94), rgba(255,255,255,.9));
+      border: 1px solid rgba(14,165,233,.18);
+    }
+    .mini-callout strong { display: block; color: var(--blue-800); margin-bottom: 6px; }
+
+    .workstreams {
+      display: grid;
+      gap: 14px;
+      padding: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(14,165,233,.14), transparent 24rem),
+        linear-gradient(180deg, rgba(240,249,255,.72), rgba(255,255,255,.74));
+    }
+    .workstream {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 18px;
+      align-items: start;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(14,165,233,.14);
+      box-shadow: 0 12px 32px rgba(7,89,133,.08);
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .workstream:hover { transform: translateY(-3px); border-color: rgba(14,165,233,.34); }
+    .stream-icon {
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      color: var(--blue-900);
+      background: linear-gradient(145deg, #fff, var(--blue-100));
+      border: 1px solid rgba(14,165,233,.18);
+      font-size: 28px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 14px 28px rgba(7,89,133,.08);
+    }
+    .workstream h4 { margin: 0 0 6px; font-size: 18px; color: var(--blue-900); }
+    .workstream p { margin: 0; color: #526a7e; font-size: 14px; }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 18px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 29px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(var(--blue-200), var(--blue-500), var(--blue-200));
+    }
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .timeline-dot {
+      width: 60px;
+      height: 60px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 1px solid rgba(14,165,233,.25);
+      box-shadow: 0 12px 30px rgba(7,89,133,.12);
+      color: var(--blue-700);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 800;
+      z-index: 2;
+    }
+    .timeline-card {
+      padding: 24px;
+      border-radius: 26px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(14,165,233,.15);
+      box-shadow: var(--soft-shadow);
+    }
+    .timeline-card h3 { margin: 0 0 8px; color: var(--blue-900); font-size: 22px; line-height: 1.15; letter-spacing: -.02em; }
+    .timeline-card p { margin: 0; color: #4b6377; }
+    .timeline-card .tag-row { margin-top: 16px; }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--blue-050);
+      border: 1px solid rgba(14,165,233,.14);
+      color: var(--blue-800);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+    .tag.dark { background: var(--blue-900); color: #fff; border-color: transparent; }
+    .tag.cyan { background: rgba(45,212,191,.12); color: #0f766e; border-color: rgba(45,212,191,.22); }
+    .tag.violet { background: rgba(124,58,237,.10); color: #6d28d9; border-color: rgba(124,58,237,.18); }
+    .tag.rose { background: rgba(244,114,182,.12); color: #be185d; border-color: rgba(244,114,182,.18); }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 24px;
+    }
+    .filter-btn {
+      border: 1px solid rgba(14,165,233,.18);
+      background: rgba(255,255,255,.86);
+      color: var(--blue-800);
+      font-weight: 850;
+      border-radius: 999px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .filter-btn:hover, .filter-btn.is-active {
+      transform: translateY(-1px);
+      background: var(--blue-800);
+      color: #fff;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card-grid.two { grid-template-columns: repeat(2, 1fr); }
+
+    .research-card,
+    .repo-card,
+    .op-card {
+      position: relative;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(14,165,233,.15);
+      box-shadow: var(--soft-shadow);
+      overflow: hidden;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .research-card::before,
+    .repo-card::before,
+    .op-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue-500), var(--blue-200), var(--cyan));
+      opacity: .9;
+    }
+    .research-card:hover,
+    .repo-card:hover,
+    .op-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(14,165,233,.35);
+      box-shadow: 0 26px 70px rgba(7,89,133,.14);
+    }
+    .card-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .card-index {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--blue-100);
+      color: var(--blue-900);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 900;
+      border: 1px solid rgba(14,165,233,.18);
+    }
+    .card-kind {
+      color: var(--blue-700);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .research-card h3,
+    .repo-card h3,
+    .op-card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      line-height: 1.1;
+      color: var(--blue-900);
+      letter-spacing: -.035em;
+    }
+    .research-card p,
+    .repo-card p,
+    .op-card p { margin: 0 0 18px; color: #50677a; font-size: 14.5px; }
+    .metric-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .metric {
+      padding: 12px;
+      border-radius: 18px;
+      background: var(--blue-050);
+      border: 1px solid rgba(14,165,233,.13);
+    }
+    .metric strong { display: block; font-size: 20px; line-height: 1; color: var(--blue-900); letter-spacing: -.03em; }
+    .metric span { display: block; margin-top: 7px; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+
+    .source-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: auto;
+    }
+    .source-actions a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      color: var(--blue-800);
+      background: #fff;
+      border: 1px solid rgba(14,165,233,.18);
+      font-size: 12px;
+      font-weight: 850;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .source-actions a:hover { transform: translateY(-1px); background: var(--blue-100); }
+
+    .visual-band {
+      margin: 24px 0 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .visual-card {
+      overflow: hidden;
+      min-height: 260px;
+      border-radius: 28px;
+      border: 1px solid rgba(14,165,233,.15);
+      background: #fff;
+      box-shadow: var(--soft-shadow);
+      display: flex;
+      flex-direction: column;
+    }
+    .visual-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      object-position: center;
+      background: var(--blue-050);
+      border-bottom: 1px solid rgba(14,165,233,.12);
+    }
+    .visual-card .visual-copy { padding: 16px; }
+    .visual-card h3 { margin: 0 0 5px; font-size: 17px; color: var(--blue-900); }
+    .visual-card p { margin: 0; color: #5f7385; font-size: 13px; }
+
+    .architecture {
+      padding: 26px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      background:
+        radial-gradient(circle at top left, rgba(125,211,252,.28), transparent 26rem),
+        rgba(255,255,255,.84);
+    }
+    .arch-step {
+      position: relative;
+      padding: 18px;
+      min-height: 170px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(14,165,233,.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .arch-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -9px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--blue-800);
+      color: #fff;
+      font-weight: 900;
+      z-index: 2;
+      box-shadow: 0 10px 25px rgba(7,89,133,.18);
+    }
+    .arch-step b { color: var(--blue-900); font-size: 17px; line-height: 1.15; letter-spacing: -.02em; }
+    .arch-step span { display: block; color: #5f7385; font-size: 13px; margin-top: 10px; }
+    .arch-step code {
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--blue-800);
+      background: var(--blue-050);
+      border-radius: 999px;
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 18px;
+      align-self: flex-start;
+      border: 1px solid rgba(14,165,233,.13);
+    }
+
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .placeholder {
+      min-height: 250px;
+      border-radius: 28px;
+      border: 2px dashed rgba(14,165,233,.28);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.82), rgba(224,242,254,.58)),
+        repeating-linear-gradient(45deg, rgba(14,165,233,.04) 0 10px, rgba(14,165,233,.08) 10px 20px);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 26px;
+      color: var(--blue-800);
+      box-shadow: var(--soft-shadow);
+    }
+    .placeholder strong { display: block; font-size: 20px; margin-bottom: 8px; color: var(--blue-900); }
+    .placeholder span { color: #5e7386; font-size: 14px; }
+
+    .quote-panel {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 18px;
+      align-items: stretch;
+      padding: 24px;
+      background:
+        radial-gradient(circle at bottom right, rgba(14,165,233,.16), transparent 28rem),
+        rgba(255,255,255,.86);
+    }
+    .quote-logo {
+      display: grid;
+      place-items: center;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid rgba(14,165,233,.14);
+      overflow: hidden;
+      min-height: 350px;
+    }
+    .quote-logo img { width: min(88%, 390px); border-radius: 24px; }
+    .quote-copy {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .quote-copy p.big {
+      margin: 0 0 22px;
+      font-size: clamp(24px, 3.5vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+      font-weight: 900;
+      color: var(--blue-900);
+    }
+    .quote-copy p { color: #4c6579; }
+
+    .opportunities {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .op-card {
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+    }
+    .op-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: var(--blue-100);
+      font-size: 26px;
+      margin-bottom: 18px;
+    }
+
+    .sources {
+      padding: 30px;
+      background: rgba(7,42,69,.96);
+      color: #dff5ff;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -20px 70px rgba(7,42,69,.14);
+    }
+    .sources h2 { color: #fff; font-size: clamp(28px, 4vw, 44px); }
+    .source-list {
+      columns: 2;
+      column-gap: 34px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .source-list li {
+      break-inside: avoid;
+      margin: 0 0 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(186,230,253,.12);
+      color: #cceeff;
+      font-size: 13px;
+    }
+    .source-list a { color: #fff; font-weight: 800; text-decoration: underline; text-decoration-color: rgba(125,211,252,.55); text-underline-offset: 3px; }
+
+    .footer-note {
+      color: #94cfe8;
+      font-size: 13px;
+      margin: 26px 0 0;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+
+
+    /* --- Revision layer: CogNosco lockup, elegant logo atmosphere, parallax panels, and CDS infographic --- */
+    .lab-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin: -8px 0 26px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(14,165,233,.16);
+      box-shadow: 0 14px 34px rgba(7,89,133,.10);
+      color: var(--blue-900);
+      backdrop-filter: blur(12px);
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .lab-lockup:hover { transform: translateY(-2px); border-color: rgba(14,165,233,.32); box-shadow: 0 18px 42px rgba(7,89,133,.14); }
+    .lab-lockup img {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #fff;
+      border: 1px solid rgba(14,165,233,.18);
+    }
+    .lab-lockup span { display: grid; line-height: 1.15; }
+    .lab-lockup b { font-size: 13px; letter-spacing: -.01em; }
+    .lab-lockup small { margin-top: 3px; color: #5c7184; font-size: 11px; font-weight: 700; }
+
+    .logo-atelier {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: 54px;
+      overflow: hidden;
+    }
+    .logo-atelier::before {
+      content: "";
+      position: absolute;
+      inset: 11% 3% 8% 2%;
+      border-radius: 46% 54% 52% 48% / 40% 44% 56% 60%;
+      background:
+        linear-gradient(90deg, rgba(14,165,233,.08) 1px, transparent 1px) 0 0 / 34px 34px,
+        linear-gradient(0deg, rgba(14,165,233,.06) 1px, transparent 1px) 0 0 / 34px 34px,
+        radial-gradient(circle at 52% 42%, rgba(125,211,252,.18), transparent 34%),
+        radial-gradient(circle at 30% 70%, rgba(255,255,255,.92), transparent 44%);
+      border: 1px solid rgba(14,165,233,.18);
+      box-shadow: inset 0 0 70px rgba(14,165,233,.08), 0 28px 80px rgba(14,165,233,.10);
+      transform: rotate(-4deg);
+    }
+    .logo-atelier::after {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 310px;
+      right: 2%;
+      top: 7%;
+      border-radius: 50%;
+      border: 1px solid rgba(14,165,233,.16);
+      background: radial-gradient(circle, rgba(255,255,255,.55), rgba(224,242,254,.22) 54%, transparent 72%);
+      box-shadow: 0 0 0 34px rgba(224,242,254,.12), 0 0 0 68px rgba(224,242,254,.07);
+    }
+    .hero-neural-map {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: .98;
+      filter: drop-shadow(0 18px 34px rgba(7,89,133,.10));
+    }
+    .token-chip {
+      position: absolute;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(14,165,233,.18);
+      color: rgba(7,42,69,.72);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      box-shadow: 0 12px 26px rgba(7,89,133,.10);
+      backdrop-filter: blur(12px);
+    }
+    .chip-a { left: 4%; top: 18%; transform: rotate(-10deg); }
+    .chip-b { right: 7%; top: 28%; transform: rotate(8deg); }
+    .chip-c { left: 4%; bottom: 14%; transform: rotate(6deg); }
+    .chip-d { right: 5%; bottom: 10%; transform: rotate(-6deg); }
+
+    .parallax-section {
+      padding: 74px 0 26px;
+      position: relative;
+    }
+    .parallax-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 42px;
+      border: 1px solid rgba(14,165,233,.16);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 30px 90px rgba(7,89,133,.13);
+      isolation: isolate;
+    }
+    .parallax-track {
+      display: flex;
+      transition: transform .72s cubic-bezier(.22,.61,.36,1);
+      will-change: transform;
+    }
+    .parallax-slide {
+      position: relative;
+      flex: 0 0 100%;
+      min-height: 500px;
+      display: grid;
+      align-items: center;
+      padding: 54px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,.94), rgba(224,242,254,.72));
+    }
+    .parallax-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.96), rgba(255,255,255,.74) 42%, rgba(240,249,255,.42)),
+        radial-gradient(circle at 88% 18%, rgba(14,165,233,.20), transparent 24rem),
+        radial-gradient(circle at 80% 80%, rgba(125,211,252,.17), transparent 22rem);
+      z-index: 1;
+    }
+    .parallax-image {
+      position: absolute;
+      inset: -8%;
+      background-image: var(--slide-image);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: 88% center;
+      transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.06);
+      opacity: .22;
+      filter: saturate(1.05) contrast(1.04);
+      transition: transform .2s ease-out;
+      z-index: 0;
+    }
+    .parallax-card {
+      position: relative;
+      z-index: 2;
+      max-width: 590px;
+      padding: 34px;
+      border-radius: 32px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(14,165,233,.18);
+      box-shadow: 0 22px 62px rgba(7,89,133,.14);
+      backdrop-filter: blur(16px);
+    }
+    .parallax-card h3 {
+      margin: 10px 0 14px;
+      color: var(--blue-900);
+      font-size: clamp(30px, 4.5vw, 54px);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+    .parallax-card p {
+      margin: 0;
+      color: #4a6378;
+      font-size: 17px;
+    }
+    .parallax-controls {
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      display: inline-flex;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(14,165,233,.15);
+      box-shadow: 0 12px 30px rgba(7,89,133,.12);
+      backdrop-filter: blur(14px);
+    }
+    .parallax-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(7,89,133,.22);
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, width .2s ease;
+    }
+    .parallax-dot.is-active { width: 30px; border-radius: 999px; background: var(--blue-600); }
+    .parallax-dot:hover { transform: translateY(-1px); }
+
+    .cds-panel {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 0;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+    .cds-infographic {
+      margin: 0;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.96), rgba(240,249,255,.76)),
+        radial-gradient(circle at 20% 20%, rgba(14,165,233,.12), transparent 22rem);
+      border-right: 1px solid rgba(14,165,233,.13);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cds-infographic img {
+      width: 100%;
+      border-radius: 24px;
+      border: 1px solid rgba(14,165,233,.18);
+      box-shadow: 0 20px 55px rgba(7,89,133,.12);
+      background: #fff;
+    }
+    .cds-infographic figcaption {
+      margin-top: 14px;
+      color: #5a7286;
+      font-size: 13px;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+    .cds-copy {
+      padding: 34px;
+      background:
+        radial-gradient(circle at top right, rgba(14,165,233,.14), transparent 20rem),
+        rgba(255,255,255,.86);
+    }
+    .cds-copy p {
+      margin: 0 0 16px;
+      color: #465f74;
+      font-size: 15.5px;
+    }
+    .cds-why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .cds-why-grid div {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(14,165,233,.14);
+      box-shadow: 0 12px 26px rgba(7,89,133,.07);
+    }
+    .cds-why-grid b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--blue-900);
+      font-size: 14px;
+    }
+    .cds-why-grid span {
+      color: #5b7185;
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    .references-panel {
+      margin-top: 22px;
+      padding: 28px;
+      border-radius: 30px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(14,165,233,.15);
+      box-shadow: var(--soft-shadow);
+    }
+    .references-panel h3 {
+      margin: 0 0 16px;
+      color: var(--blue-900);
+      font-size: 24px;
+      letter-spacing: -.035em;
+    }
+    .references-panel ol {
+      margin: 0;
+      padding-left: 22px;
+      color: #4d6579;
+    }
+    .references-panel li { margin: 0 0 12px; }
+    .references-panel a {
+      color: var(--blue-700);
+      font-weight: 850;
+      text-decoration: underline;
+      text-decoration-color: rgba(14,165,233,.36);
+      text-underline-offset: 3px;
+    }
+    .dual-logo {
+      gap: 14px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(125,211,252,.20), transparent 22rem),
+        #fff;
+    }
+    .dual-logo img:first-child { width: min(86%, 360px); }
+    .dual-logo img:nth-child(2) {
+      width: min(60%, 230px);
+      border-radius: 50%;
+      padding: 8px;
+      background: #fff;
+      box-shadow: 0 14px 34px rgba(7,89,133,.10);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .scope-panel,
+      .section-head,
+      .quote-panel,
+      .cds-panel { grid-template-columns: 1fr; }
+      .scope-narrative { border-right: 0; border-bottom: 1px solid rgba(14,165,233,.13); }
+      .cds-infographic { border-right: 0; border-bottom: 1px solid rgba(14,165,233,.13); }
+      .parallax-slide { min-height: 520px; padding: 34px; }
+      .parallax-image { background-position: center bottom; opacity: .16; }
+      .logo-stage { min-height: auto; padding-top: 22px; }
+      .meta-strip { grid-template-columns: repeat(2, 1fr); }
+      .card-grid, .card-grid.two, .visual-band, .opportunities { grid-template-columns: 1fr 1fr; }
+      .architecture { grid-template-columns: 1fr; }
+      .arch-step:not(:last-child)::after { right: 18px; top: auto; bottom: -14px; transform: rotate(90deg); }
+      .source-list { columns: 1; }
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-links { justify-content: flex-start; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .hero { padding-top: 48px; }
+      h1 { font-size: clamp(46px, 18vw, 72px); }
+      .meta-strip, .card-grid, .card-grid.two, .visual-band, .opportunities, .placeholder-grid { grid-template-columns: 1fr; }
+      .scope-narrative, .workstreams, .quote-copy, .sources, .cds-copy, .cds-infographic, .parallax-card { padding: 22px; }
+      .section { padding: 64px 0; }
+      .placeholder { min-height: 210px; }
+      .parallax-slide { min-height: 560px; padding: 22px; align-items: end; }
+      .parallax-card h3 { font-size: 32px; }
+      .cds-why-grid { grid-template-columns: 1fr; }
+      .lab-lockup { border-radius: 24px; align-items: flex-start; }
+      .logo-caption { position: static; margin-top: 12px; max-width: none; }
+      .logo-card { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" aria-label="PENSO page navigation">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="PENSO home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>PENSO · CogNosco Lab</span>
+      </a>
+      <nav class="nav-links" aria-label="Main sections">
+        <a href="#scope">Scope</a>
+        <a href="#lab-showcase">Highlights</a>
+        <a href="#updates">Updates</a>
+        <a href="#preprints">Preprints</a>
+        <a href="#githubs">GitHubs</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#opportunities">Opportunities</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero">
+      <canvas id="mindCanvas" aria-hidden="true"></canvas>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow"><span class="pulse" aria-hidden="true"></span> FIS2 · MUR · University of Trento</span>
+          <h1>PENSO <span class="gradient-text">Project Observatory</span></h1>
+          <p class="hero-lede">
+            A portfolio for the FIS2 project <strong>“A Psychometric framEwork for uNderstanding how large language modelS influence or bias human psychOlogy”</strong>. <br /> We want to understand the cognitive impact of LLMs on human persuasion, math learning and mental well-being via NLP and interpretable network science.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#preprints">Explore research outputs <span aria-hidden="true">→</span></a>
+            <a class="button secondary" href="#githubs">Open project GitHubs</a>
+          </div>
+          <a class="lab-lockup" href="https://cognosco.dipsco.unitn.it/" target="_blank" rel="noopener" aria-label="Visit CogNosco Lab website">
+            <img src="https://raw.githubusercontent.com/MassimoStel/MHDS/main/NewLogoCognosco.png" alt="CogNosco Lab logo" />
+            <span><b>Created within CogNosco Lab</b><small>Cognitive Data Science · AI Psychometrics · UniTrento</small></span>
+          </a>
+          <div class="meta-strip" aria-label="Project highlights">
+            <div class="meta-tile"><strong>€1.3M</strong><span>FIS2 / MUR funding</span></div>
+            <div class="meta-tile"><strong>3</strong><span>public data pillars</span></div>
+            <div class="meta-tile"><strong>2</strong><span>pooling dashboards</span></div>
+            <div class="meta-tile"><strong>1</strong><span>NLP network package</span></div>
+          </div>
+        </div>
+        <div class="logo-stage reveal" aria-label="PENSO logo visual area">
+          <div class="logo-atelier" aria-hidden="true">
+            <svg class="hero-neural-map" viewBox="0 0 540 560" role="presentation" focusable="false">
+              <defs>
+                <linearGradient id="heroLine" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#075985" stop-opacity="0.22"/>
+                  <stop offset="1" stop-color="#0ea5e9" stop-opacity="0.42"/>
+                </linearGradient>
+              </defs>
+              <path d="M96 292 C118 184, 196 92, 312 88 C418 84, 486 154, 494 250" fill="none" stroke="url(#heroLine)" stroke-width="2" stroke-dasharray="7 12"/>
+              <path d="M122 410 C220 462, 338 464, 452 392" fill="none" stroke="#7dd3fc" stroke-width="2" stroke-opacity=".42"/>
+              <line x1="154" y1="232" x2="240" y2="174" stroke="#075985" stroke-opacity=".22"/>
+              <line x1="240" y1="174" x2="322" y2="232" stroke="#075985" stroke-opacity=".22"/>
+              <line x1="322" y1="232" x2="410" y2="176" stroke="#075985" stroke-opacity=".22"/>
+              <line x1="170" y1="348" x2="286" y2="306" stroke="#0ea5e9" stroke-opacity=".24"/>
+              <line x1="286" y1="306" x2="398" y2="352" stroke="#0ea5e9" stroke-opacity=".24"/>
+              <circle cx="154" cy="232" r="7" fill="#075985" opacity=".68"/>
+              <circle cx="240" cy="174" r="5" fill="#0ea5e9" opacity=".58"/>
+              <circle cx="322" cy="232" r="7" fill="#0284c7" opacity=".62"/>
+              <circle cx="410" cy="176" r="5" fill="#7dd3fc" opacity=".92"/>
+              <circle cx="170" cy="348" r="6" fill="#0ea5e9" opacity=".56"/>
+              <circle cx="286" cy="306" r="8" fill="#075985" opacity=".58"/>
+              <circle cx="398" cy="352" r="6" fill="#7dd3fc" opacity=".84"/>
+            </svg>
+            <span class="token-chip chip-a">LLM teaching</span>
+            <span class="token-chip chip-b">LLM mental health</span>
+            <span class="token-chip chip-c">LLM persuasion</span>
+            <span class="token-chip chip-d">cognitive digital shadows</span>
+          </div>
+          <figure class="logo-card">
+            <!-- Deployment note: for production, copy this logo into assets/penso-logo.png and replace the src below. -->
+            <img src="https://raw.githubusercontent.com/MassimoStel/MEDS/main/00-assets/images/PENSO_Logo.png" alt="PENSO logo showing a head silhouette, cognitive network nodes, and LLM token streams" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="lab-showcase" class="parallax-section" aria-label="PENSO and CogNosco visual highlights">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">PENSO - How do LLMs influence human psychology?</div>
+            <h2>A data-informed research project funded by MUR</h2>
+          </div>
+          <p>
+            PENSO exploits CogNosco Lab’s expertise in cognitive network science, psychometrics, and human-centered AI to study how large language models can influence human cognition. The project is organized into three public pillars: ConvinceMe (social persuasion), TeachMe (math learning), and HelpMe (mental well-being). Each pillar produces reusable datasets, dashboards, and NLP packages for downstream research.
+          </p>
+        </div>
+
+        <div class="parallax-frame reveal" data-parallax-slider>
+          <div class="parallax-track">
+            <article class="parallax-slide is-active" style="--slide-image:url('https://raw.githubusercontent.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento/main/PENSO_Logo.png')">
+              <div class="parallax-image" aria-hidden="true"></div>
+              <div class="parallax-card">
+                <span class="section-kicker">PENSO</span>
+                <h3>LLMs as Unknown yet Pervasive Cognitive Agents</h3>
+                <p>LLMs are everywhere. Theycan serve as cognitive agents, influencing human thought processes and decision-making in ways that are not yet fully understood. In the EU, they are increasingly integrated into educational and therapeutic contexts with mostly unknown consequences.</p>
+              </div>
+            </article>
+            <article class="parallax-slide" style="--slide-image:url('https://raw.githubusercontent.com/MassimoStel/MHDS/main/NewLogoCognosco.png')">
+              <div class="parallax-image" aria-hidden="true"></div>
+              <div class="parallax-card">
+                <span class="section-kicker">CogNosco Lab</span>
+                <h3>Understand the cognitive impact of LLMswith cognitive network science</h3>
+                <p>PENSO leverages CogNosco Lab’s expertise in complex systems, network psychometrics, cognitive networks, and human-centered artificial intelligence. Cognitive network science provides the theoretical and methodological framework for analyzing the dynamic interactions between LLMs and human cognition.</p>
+              </div>
+            </article>
+            <article class="parallax-slide" style="--slide-image:url('https://raw.githubusercontent.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento/main/Graphical_Abstract.png')">
+              <div class="parallax-image" aria-hidden="true"></div>
+              <div class="parallax-card">
+                <span class="section-kicker">PENSO introduces Cognitive Digital Shadows</span>
+                <h3>A new cognitive framework for LLM prompting</h3>
+                <p>PENSO introduces a novel approach to LLM prompting by leveraging Cognitive Digital Shadows, enabling more nuanced and context-aware interactions between humans and artificial intelligence.</p>
+              </div>
+            </article>
+          </div>
+          <div class="parallax-controls" aria-label="Slider controls">
+            <button class="parallax-dot is-active" type="button" aria-label="Show PENSO logo slide"></button>
+            <button class="parallax-dot" type="button" aria-label="Show CogNosco logo slide"></button>
+            <button class="parallax-dot" type="button" aria-label="Show Cognitive Digital Shadows slide"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scope" class="section tight">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">01 · Scientific scope</div>
+            <h2>Measuring how LLMs shape human cognition.</h2>
+          </div>
+          <p>
+            PENSO studies how large language models can influence people and how model outputs vary when prompted to behave like humans, assistants, tutors, counselors, or conversational counterparts. The public materials place the project at the intersection of psychometrics, cognitive network science, NLP, AI safety, education, and mental well-being.
+          </p>
+        </div>
+
+        <div class="panel scope-panel reveal">
+          <article class="scope-narrative">
+            <h3>From “model output” to cognitive evidence</h3>
+            <p>
+              PENSO treats LLM responses not only as text, but as structured traces that can be measured: stance, reasoning, emotional tone, persona sensitivity, psychometric patterns, mathematical confidence, and cognitive-network structure. This framing makes it possible to compare how models answer as themselves versus how they answer when shadowing a human persona.
+            </p>
+            <p>
+              The project’s public outputs are organized around three connected questions: Can LLMs persuade or shift beliefs on societal topics? Can they teach mathematics without amplifying anxiety or overconfidence? Can they support psychological well-being while preserving safety, privacy, and interpretability?
+            </p>
+            <div class="mini-callout">
+              <strong>PENSO's Pathways to Impact</strong>
+              <ul>
+                <li>Open-science datasets and dashboards for LLM research communities</li>
+                <li>LLM prompting strategies for novel education and mental health platforms</li>
+                <li>Interpretable network science and knowledge graphs for measuring human–AI interaction</li>
+            </div>
+          </article>
+
+          <div class="workstreams" aria-label="PENSO public research workstreams">
+            <article class="workstream">
+              <div class="stream-icon" aria-hidden="true">🧭</div>
+              <div>
+                <h4>CONVINCE ME · Social persuasion</h4>
+                <p>Maps LLM debate patterns on polarizing societal issues, including fake content, vaccines/healthcare, gender gaps in science, and STEM stereotypes.</p>
+              </div>
+            </article>
+            <article class="workstream">
+              <div class="stream-icon" aria-hidden="true">∑</div>
+              <div>
+                <h4>TEACH ME · Math learning</h4>
+                <p>Studies LLMs as math tutors through performance, confidence, self-efficacy, math anxiety, reasoning traces, and behavioural forma mentis networks.</p>
+              </div>
+            </article>
+            <article class="workstream">
+              <div class="stream-icon" aria-hidden="true">♡</div>
+              <div>
+                <h4>SUPPORT ME · Mental well-being</h4>
+                <p>Benchmarks how LLMs simulate depression, anxiety, stress, emotional recall, and DASS-21 explanations under human-shadow and assistant modes.</p>
+              </div>
+            </article>
+            <article class="workstream">
+              <div class="stream-icon" aria-hidden="true">◎</div>
+              <div>
+                <h4>Network NLP · Actors, actions, consequences</h4>
+                <p>Transforms narratives into Target–Event–Agent networks to expose who acts, what happens, and who or what is affected in model-generated text.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="updates" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">02 · Updates and events</div>
+            <h2>Project Timeline and Achievements.</h2>
+          </div>
+          <p>
+           Here is the outline of the PENSO project, which is supported by the Ministero Dell'Università e della Ricerca (MUR) according to Decreto N. 23178 of 10 dicembre 2024 - Bando FIS 2. The research team acknowledges support also from CALCOLO, funded by Fondazione VRT, for the computational infrastructure simulating LLMs. 
+          </p>
+        </div>
+
+        <div class="timeline reveal">
+          <article class="timeline-item">
+            <div class="timeline-dot">2025</div>
+            <div class="timeline-card">
+              <h3>FIS2 award and project launch</h3>
+              <p>PENSO is listed among UniTrento’s FIS2 grants as a project coordinated by Massimo Stella. Public UniTrento communication reports €1.3M funding from the Italian Ministry of University and Research to study how LLMs influence human knowledge and cognition.</p>
+              <div class="tag-row"><span class="tag dark">FIS2</span><span class="tag">MUR</span><span class="tag">CogNosco Lab</span></div>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-dot">Apr</div>
+            <div class="timeline-card">
+              <h3>First open-science milestone</h3>
+              <p>UniTrentoMag reports that by the end of April 2026 PENSO released three datasets on LLM bias in conversation, psychological support, and mathematics teaching, with documentation and open-science references on GitHub, plus an automatic language-analysis package.</p>
+              <div class="tag-row"><span class="tag cyan">3 datasets</span><span class="tag violet">NLP package</span><span class="tag rose">GitHub docs</span></div>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-dot">2026</div>
+            <div class="timeline-card">
+              <h3>Preprints and software releases</h3>
+              <p>Public repositories now expose MEDS, MHDS, Cognitive Digital Shadows, TEA Networks, and interactive pooling systems. Together they form a visible software-and-data portfolio for researchers working on LLM psychometrics, persuasion, mental health, and education.</p>
+              <div class="tag-row"><span class="tag">MEDS</span><span class="tag">MHDS</span><span class="tag">CDS</span><span class="tag">TEA_Networks</span><span class="tag">Dashboards</span></div>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-dot">Next</div>
+            <div class="timeline-card">
+              <h3>Human experiments and technology transfer</h3>
+              <p>Public reporting describes repeated human–LLM interaction experiments on social polarization, mathematics learning, and psychological support, with ambitions toward privacy-aware well-being support and math-tutoring platforms that do not transmit anxiety.</p>
+              <div class="tag-row"><span class="tag cyan">Human–AI interaction</span><span class="tag">Tech transfer</span><span class="tag">Ethics & privacy</span></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="visual-band reveal" aria-label="Visual materials and placeholders">
+          <article class="visual-card">
+            <img src="https://raw.githubusercontent.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento/main/Graphical_Abstract.png" alt="Graphical abstract for Cognitive Digital Shadows data pipeline" />
+            <div class="visual-copy"></div>
+          </article>
+          <article class="visual-card">
+            <img src="https://raw.githubusercontent.com/MassimoStel/MEDS/main/00-assets/images/main_infographic.jpeg" alt="MEDS infographic comparing human persona mode with LLM assistant mode in math education" />
+            <div class="visual-copy"></div>
+          </article>
+          <article class="visual-card">
+            <img src="https://raw.githubusercontent.com/MassimoStel/MHDS/main/infographic.png" alt="MHDS data generation pipeline with persona randomization and LLM processing steps" />
+            <div class="visual-copy"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="preprints" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">03 · Scientific Papers and Preprints</div>
+            <h2>Research spotlight for PENSO</h2>
+          </div>
+          <p>
+            Read here some summaries of the PENSO preprints and scientific papers, with links to the original sources. The research outputs are organized around three public pillars: ConvinceMe (social persuasion), TeachMe (math learning), and HelpMe (mental well-being). Each pillar produces reusable datasets, dashboards, and NLP packages for downstream research.
+          </p>
+        </div>
+
+        <div class="card-grid two reveal">
+          <article class="research-card">
+            <div class="card-topline"><div class="card-index">01</div><div class="card-kind">arXiv · CDS</div></div>
+            <h3>How LLMs debate societal issues</h3>
+            <p><strong>Ardebili & Stella (2026)</strong> introduce Cognitive Digital Shadows, a synthetic corpus for studying how 19 LLMs discuss socially sensitive topics when prompted as either human personas or AI assistants. The dataset connects persona attributes, stance, reasoning, affect, and topic-specific discourse. The corpus contains <strong>190,000 validated records</strong> across four societal domains: vaccines and healthcare, social media disinformation, the gender gap in science, and STEM stereotypes. Its validation shows that the generated debates remain anchored to the intended topics and that key concepts occupy meaningful positions in the resulting textual forma mentis networks. The main result is a reusable, analysis-ready resource for comparing how different models, personas, and role conditions shape the semantic and emotional framing of sensitive issues.</p>
+            <div class="metric-list">
+              <div class="metric"><strong>190K</strong><span>records</span></div>
+              <div class="metric"><strong>19</strong><span>LLMs</span></div>
+              <div class="metric"><strong>4</strong><span>societal topics</span></div>
+              <div class="metric"><strong>17</strong><span>persona attributes</span></div>
+            </div>
+            <div class="tag-row"><span class="tag">bias auditing</span><span class="tag">TFMNs</span><span class="tag">social discourse</span></div>
+            <div class="source-actions">
+              <a href="https://arxiv.org/abs/2604.27624" target="_blank" rel="noopener">arXiv</a>
+              <a href="https://github.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="research-card">
+            <div class="card-topline"><div class="card-index">02</div><div class="card-kind">arXiv · MEDS</div></div>
+            <h3>Math Education Digital Shadows</h3>
+            <p><strong>Esposito, Tricarico, Porzio, Aghazadeh Ardebili & Stella (2026)</strong> introduce Math Education Digital Shadows (MEDS) to map how LLMs reason about mathematics under human-like and AI-assistant conditions. MEDS combines math performance with confidence, self-efficacy, math anxiety, cognitive associations, and reasoning traces, moving beyond traditional benchmarks that only score whether an answer is correct. The corpus includes <strong>28,000 simulated personas generated by 14 LLMs</strong>, each completing four complementary tasks: open reflections on mathematics, psychometric ratings with explanations, cognitive association networks, and 18 high-school mathematics problems with reasoning and confidence scores. Its validation shows that LLMs can produce coherent math-related profiles, while also revealing model-family differences such as negative attitudes toward mathematics, logical fallacies, and overconfidence in problem solving.</p>            <div class="metric-list">
+              <div class="metric"><strong>28K</strong><span>digital shadows</span></div>
+              <div class="metric"><strong>140K</strong><span>task JSON files</span></div>
+              <div class="metric"><strong>14</strong><span>LLMs</span></div>
+              <div class="metric"><strong>4</strong><span>task families</span></div>
+            </div>
+            <div class="tag-row"><span class="tag">math anxiety</span><span class="tag">confidence</span><span class="tag">AI tutors</span></div>
+            <div class="source-actions">
+              <a href="https://arxiv.org/abs/2604.27618" target="_blank" rel="noopener">arXiv</a>
+              <a href="https://github.com/MassimoStel/MEDS" target="_blank" rel="noopener">Dataset</a>
+              <a href="https://github.com/MassimoStel/MEDS-pooling-system" target="_blank" rel="noopener">Dashboard</a>
+            </div>
+          </article>
+
+          <article class="research-card">
+            <div class="card-topline"><div class="card-index">03</div><div class="card-kind">PsyArXiv · MHDS</div></div>
+            <h3>Mental Health Digital Shadows</h3>
+            <p><strong>Franchino, Rizzi, De Duro, Aghazadeh Ardebili & Stella (2026)</strong> introduce Mental Health Digital Shadows (MHDS), a benchmark for analysing how LLMs simulate depression, anxiety, and stress through language and psychometric responses. MHDS supports research in AI safety, well-being AI, NLP, and bias detection by linking DASS-21 scores with plain-language explanations, emotional recall words, and open-ended replies on mental-health topics such as stigma, support, and AI psychologists. The corpus contains <strong>75,000 outputs from 15 LLMs</strong>, organised as 5,000 records across human-shadow and AI-assistant conditions, with 56,250 human-shadow rows and 18,750 LLM-assistant rows. Its validation suggests that human-shadow prompts lead LLMs to adapt both language and psychometric scores according to the simulated psychological profile, while assistant-style prompts show less of this person-like modulation. MHDS therefore offers a psychometrically grounded resource for studying how artificial agents represent distress, mental-health language, and the risks and opportunities of AI-mediated psychological support.</p>            <div class="metric-list">
+              <div class="metric"><strong>75K</strong><span>rows / outputs</span></div>
+              <div class="metric"><strong>15</strong><span>LLMs</span></div>
+              <div class="metric"><strong>DASS</strong><span>21 items</span></div>
+              <div class="metric"><strong>CC0</strong><span>dataset license</span></div>
+            </div>
+            <div class="tag-row"><span class="tag rose">mental health</span><span class="tag">OCEAN</span><span class="tag">DASS-21</span></div>
+            <div class="source-actions">
+              <a href="https://osf.io/preprints/psyarxiv/7zhvr_v1" target="_blank" rel="noopener">PsyArXiv</a>
+              <a href="https://github.com/MassimoStel/MHDS" target="_blank" rel="noopener">Dataset</a>
+              <a href="https://github.com/MassimoStel/MHDS-pooling-system" target="_blank" rel="noopener">Dashboard</a>
+            </div>
+          </article>
+
+          <article class="research-card research-card-with-visual">
+  <div class="card-topline">
+    <div class="card-index">04</div>
+    <div class="card-kind">Preprint · TEA Nets</div>
+  </div>
+
+  <h3>Target–Event–Agent Networks</h3>
+
+  <p>
+    <strong>Franchini, Carrillo, De Duro, Improta, Ardebili &amp; Stella (2026)</strong>
+    present TEA Nets, an NLP and network-science framework for modelling
+    <em>who does what to whom</em> in text. The method represents agents, events,
+    and targets as distinct but connected layers, allowing human and AI-generated narratives to be studied
+    as structured relations between actors, actions, and consequences.
+  </p>
+
+
+  <figure class="card-figure tea-figure">
+    <img
+      src="https://raw.githubusercontent.com/MassimoStel/TEA_Networks/main/tea_overview.jpg"
+      alt="Target–Event–Agent network visualization showing agents, events, targets, semantic links, and valence labels"
+      loading="lazy"
+    />
+  </figure>
+
+  <div class="metric-list">
+    <div class="metric"><strong>3</strong><span>network layers</span></div>
+    <div class="metric"><strong>122</strong><span>gold SVO sentences</span></div>
+    <div class="metric"><strong>1,150</strong><span>PassivePy records</span></div>
+    <div class="metric"><strong>BSD</strong><span>3-Clause</span></div>
+  </div>
+
+  <div class="tag-row">
+    <span class="tag cyan">NLP package</span>
+    <span class="tag">bias analysis</span>
+    <span class="tag">network science</span>
+  </div>
+
+  <div class="source-actions">
+    <a href="https://github.com/MassimoStel/TEA_Networks" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://raw.githubusercontent.com/MassimoStel/TEA_Networks/main/tea_overview.jpg" target="_blank" rel="noopener">View TEA figure</a>
+    <a href="https://colab.research.google.com/" target="_blank" rel="noopener">Colab placeholder</a>
+  </div>
+</article>
+        </div>
+      </div>
+    </section>
+
+    <section id="githubs" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">04 · GitHub portfolio</div>
+            <h2>Datasets, dashboards, and reusable code.</h2>
+          </div>
+          <p>
+            PENSO’s public GitHub portfolio includes three datasets, two interactive dashboards, and a reusable Python package for cognitive network analysis. The repositories are organized around the three public pillars of the project: ConvinceMe (social persuasion), TeachMe (math learning), and HelpMe (mental well-being). Each repository contains documentation, usage examples, and links to related preprints or publications.
+          </p>
+        </div>
+
+        <div class="filter-bar reveal" role="toolbar" aria-label="Repository filters">
+          <button class="filter-btn is-active" data-filter="all" type="button">All outputs</button>
+          <button class="filter-btn" data-filter="dataset" type="button">Datasets</button>
+          <button class="filter-btn" data-filter="dashboard" type="button">Dashboards</button>
+          <button class="filter-btn" data-filter="software" type="button">Software</button>
+        </div>
+
+        <div class="card-grid reveal" id="repoGrid">
+          <article class="repo-card" data-type="dataset">
+            <div class="card-topline"><div class="card-index">D1</div><div class="card-kind">Dataset</div></div>
+            <h3>MEDS</h3>
+            <p>Math Education Digital Shadows: data and code for LLM mathematics performance, anxiety, confidence, psychometric instruments, and reasoning across human-simulated and AI-assistant modes.</p>
+            <div class="tag-row"><span class="tag">Jupyter</span><span class="tag">14 LLMs</span><span class="tag">math learning</span></div>
+            <div class="source-actions"><a href="https://github.com/MassimoStel/MEDS" target="_blank" rel="noopener">Open repository</a><a href="https://arxiv.org/abs/2604.27618" target="_blank" rel="noopener">Manuscript</a></div>
+          </article>
+
+          <article class="repo-card" data-type="dataset">
+            <div class="card-topline"><div class="card-index">D2</div><div class="card-kind">Dataset</div></div>
+            <h3>MHDS</h3>
+            <p>Mental Health Digital Shadows: 75,000 LLM outputs from 15 model families, with persona variables, OCEAN traits, DASS-21 severity profiles, topics, emotional recall, scores, and explanations.</p>
+            <div class="tag-row"><span class="tag rose">DASS-21</span><span class="tag">15 LLMs</span><span class="tag">CC0</span></div>
+            <div class="source-actions"><a href="https://github.com/MassimoStel/MHDS" target="_blank" rel="noopener">Open repository</a><a href="https://osf.io/preprints/psyarxiv/7zhvr_v1" target="_blank" rel="noopener">Preprint</a></div>
+          </article>
+
+          <article class="repo-card" data-type="dataset dashboard">
+            <div class="card-topline"><div class="card-index">D3</div><div class="card-kind">Dataset + pooling</div></div>
+            <h3>CDS / ConvinceMe</h3>
+            <p>Cognitive Digital Shadows: around 190,000 LLM-generated debate records for social-media misinformation, vaccine/healthcare discourse, gender gap in science, and STEM stereotype threat.</p>
+            <div class="tag-row"><span class="tag violet">societal issues</span><span class="tag">19 LLMs</span><span class="tag">emotional flowers</span></div>
+            <div class="source-actions"><a href="https://github.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento" target="_blank" rel="noopener">Open repository</a><a href="https://arxiv.org/abs/2604.27624" target="_blank" rel="noopener">arXiv</a></div>
+          </article>
+
+          <article class="repo-card" data-type="software">
+            <div class="card-topline"><div class="card-index">S1</div><div class="card-kind">Python library</div></div>
+            <h3>TEA_Networks</h3>
+            <p>A reusable package for Target–Event–Agent cognitive networks in English narratives: SVO extraction, coreference handling, valence analysis, semantic enrichment, hypergraph export, and visualizations.</p>
+            <div class="tag-row"><span class="tag cyan">spaCy</span><span class="tag">NetworkX</span><span class="tag">VADER</span></div>
+            <div class="source-actions"><a href="https://github.com/MassimoStel/TEA_Networks" target="_blank" rel="noopener">Open repository</a><a href="https://github.com/MassimoStel/TEA_Networks/tree/main/Docs%20%26%20Guides" target="_blank" rel="noopener">Docs & guides</a></div>
+          </article>
+
+          <article class="repo-card" data-type="dashboard">
+            <div class="card-topline"><div class="card-index">P1</div><div class="card-kind">Dashboard</div></div>
+            <h3>MHDS Pooling System</h3>
+            <p>Interactive dashboard for filtering MHDS personas, inspecting topic answers, emotional recall words, DASS-21 scores, and exporting selected subsets as XLSX or PKL.</p>
+            <div class="tag-row"><span class="tag">Panel</span><span class="tag">Python ≥3.11</span><span class="tag">exports</span></div>
+            <div class="source-actions"><a href="https://github.com/MassimoStel/MHDS-pooling-system" target="_blank" rel="noopener">Open repository</a></div>
+          </article>
+
+          <article class="repo-card" data-type="dashboard">
+            <div class="card-topline"><div class="card-index">P2</div><div class="card-kind">Dashboard</div></div>
+            <h3>MEDS Pooling System</h3>
+            <p>Interactive dashboard for Math Education Digital Shadows: filter personas, inspect metadata, task answers, psychometric scales, quiz reasoning, confidence, and forma mentis graph data.</p>
+            <div class="tag-row"><span class="tag">TeachMe_pooling</span><span class="tag">64 MB cache</span><span class="tag">network data</span></div>
+            <div class="source-actions"><a href="https://github.com/MassimoStel/MEDS-pooling-system" target="_blank" rel="noopener">Open repository</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">05 · PENSO's Frameworks: Cognitive Digital Shadows</div>
+            <h2>Cognitive Digital Shadows for interpretable evidence.</h2>
+          </div>
+          <p>
+            Cognitive Digital Shadows are a novel framework for LLM prompting that preserves the conditions under which a model speaks. Instead of reducing a model to a single benchmark score, PENSO records the role, persona, topic, prompts, generated text, reasoning summaries, and validation metadata that shaped each answer. This makes it possible to compare how LLMs debate sensitive societal topics when acting as AI assistants or when shadowing human-like sociodemographic and psychological profiles.
+          </p>
+        </div>
+
+        <div class="panel cds-panel reveal">
+          <figure class="cds-infographic">
+            <img src="https://raw.githubusercontent.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento/main/Graphical_Abstract.png" alt="Cognitive Digital Shadows graphical abstract showing persona randomisation, mode and topic selection, prompt construction, LLM API call, JSON validation, and artifact serialisation" />
+            <figcaption>
+              The Cognitive Digital Shadows framework preserves the conditions under which an LLM speaks. Instead of reducing a model to a single benchmark score, PENSO records the role, persona, topic, prompts, generated text, reasoning summaries, and validation metadata that shaped each answer.
+            </figcaption>
+          </figure>
+          
+          <article class="cds-copy">
+            <div class="section-kicker">Why this matters</div>
+            <p>
+              Cognitive Digital Shadows are important because they preserve the conditions under which an LLM speaks. Instead of reducing a model to a single benchmark score, PENSO records the role, persona, topic, prompts, generated text, reasoning summaries, and validation metadata that shaped each answer. In the ConvinceMe workpackage, this makes it possible to compare how 19 LLMs debate sensitive societal topics when acting as AI assistants or when shadowing human-like sociodemographic and psychological profiles (Aghazadeh Ardebili & Stella, 2026).
+            </p>
+            <p>
+              The same logic becomes educational in MEDS and clinical-methodological in MHDS. MEDS connects mathematics answers to confidence, self-efficacy, math anxiety, reasoning traces, and behavioural forma mentis networks, helping researchers detect cases where a model is correct but pedagogically risky, overconfident, or anxiety-amplifying (Esposito et al., 2026). MHDS applies the digital-shadow idea to depression, anxiety, stress, emotional recall, and DASS-21 explanations, creating a psychometric testbed for safer well-being AI rather than treating mental-health text as unstructured chatbot output (Franchino and Rizzi et al., 2026).
+            </p>
+            <p>
+              TEA Networks then add a complementary interpretability layer: they ask who acts, what happens, and who or what is affected in a narrative. This is crucial for PENSO because persuasive, educational, and well-being texts do not only contain topics and emotions; they also distribute agency, responsibility, and consequences across actors. By combining digital shadows with TEA-style network extraction, the project can move from raw tokens to human-readable maps of bias, support, risk, and cognitive framing (Franchini et al., 2026).
+            </p>
+          </article>
+        </div>
+
+        <div class="cds-why-grid" aria-label="Cognitive Digital Shadows benefits">
+              <div><b>Traceability</b><span>Each response remains linked to prompting mode, persona attributes, topic, model, and validation state.</span></div>
+              <div><b>Fairness and Pooling</b><span>Outputs can be pooled by model family, role, demographic profile, construct, or debate issue to explore biases.</span></div>
+              <div><b>AI Interpretability</b><span>Semantic frames, mindset streams, emotional flowers, TFMNs, and TEA networks transform text into inspectable evidence.</span></div>
+              <div><b>Trustworthiness and Reuse</b><span>Dashboards and structured exports make the datasets usable for statistics, NLP, psychometrics, and network science.</span></div>
+        </div>
+
+        <aside class="references-panel reveal" aria-label="APA-style references for PENSO preprints">
+          <h3>Read more about PENSO's research:</h3>
+          <ol>
+            <li>Aghazadeh Ardebili, A., &amp; Stella, M. (2026). <em>Mapping how LLMs debate societal issues when shadowing human personality traits, sociodemographics and social media behavior</em>. arXiv preprint arXiv:2604.27624. <a href="https://arxiv.org/abs/2604.27624" target="_blank" rel="noopener">Read preprint</a></li>
+            <li>Esposito, N., Tricarico, A., Porzio, L., Aghazadeh Ardebili, A., &amp; Stella, M. (2026). <em>Math Education Digital Shadows for facilitating learning with LLMs: Math performance, anxiety and confidence in simulated students and AIs</em>. arXiv preprint arXiv:2604.27618. <a href="https://arxiv.org/abs/2604.27618" target="_blank" rel="noopener">Read preprint</a></li>
+            <li>Franchino, E., Rizzi, R., De Duro, E. S., Aghazadeh Ardebili, A., &amp; Stella, M. (2026). <em>Digital shadows in mental health map how LLMs simulate depression, anxiety, and stress through language and psychometrics</em>. PsyArXiv preprint. <a href="https://osf.io/preprints/psyarxiv/7zhvr_v1" target="_blank" rel="noopener">Read preprint</a></li>
+            <li>Franchini, S., Carrillo, A., De Duro, E. S., Improta, R., Ardebili, A. A., &amp; Stella, M. (2026). <em>TEA Nets combine AI and cognitive network science to model actors, actions, and consequences in text</em>. Preprint and software repository, CogNosco Lab. <a href="https://github.com/MassimoStel/TEA_Networks" target="_blank" rel="noopener">Open repository</a></li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+  <div class="container">
+    <div class="panel quote-panel network-science-panel reveal">
+      <div class="quote-logo dual-logo">
+        <img
+          src="https://raw.githubusercontent.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento/main/PENSO_Logo.png"
+          alt="PENSO logo"
+        />
+        <img
+          src="https://raw.githubusercontent.com/MassimoStel/MHDS/main/NewLogoCognosco.png"
+          alt="CogNosco Lab logo"
+        />
+      </div>
+
+      <div class="quote-copy network-science-copy">
+        <div class="network-text">
+          <p class="eyebrow">PENSO's Frameworks: Cognitive network science</p>
+
+          <p class="big">
+            From text to interpretable cognitive maps: Textual forma mentis networks.
+          </p>
+
+          <p>
+            PENSO builds on a central idea of cognitive network science (Haim and Stella, 2026): language can be
+            transformed into a structured map of concepts, associations, and affective
+            meanings. In textual forma mentis networks (Stella, PeerJ CompSci, 2020), words are not treated as isolated
+            tokens. They become nodes in a cognitive graph, connected through syntactic,
+            semantic, and emotional relations that reveal how a text organises meaning.
+          </p>
+
+          <p>
+            This framework is especially relevant for studying LLMs. When models generate
+            explanations, debates, or psychometric self-descriptions, they also produce
+            latent structures of association: which concepts are central, which emotions
+            surround them, and which ideas are linked or kept apart. Tools such as
+            EmoAtlas make these structures visible by combining AI-based parsing, validated
+            emotion lexicons, and network visualisation.
+          </p>
+
+          <div class="tag-row">
+            <span class="tag dark">textual forma mentis</span>
+            <span class="tag">semantic networks</span>
+            <span class="tag">emotion labels</span>
+            <span class="tag cyan">interpretable AI</span>
+          </div>
+        </div>
+
+        <figure class="network-showcase">
+          <img
+            src="https://raw.githubusercontent.com/MassimoStel/emoatlas/main/fig1_1500.png"
+            alt="EmoAtlas textual forma mentis network visualization"
+            loading="lazy"
+          />
+          <figcaption>
+            Using NLP, textual forma mentis networks map concepts, associations, and emotional labels extracted from text.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="opportunities" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">06 · Reading paths</div>
+            <h2>Where to go next?</h2>
+          </div>
+          <p>
+          </p>
+        </div>
+
+        <div class="opportunities reveal">
+          <article class="op-card"><div class="op-icon" aria-hidden="true">📚</div><h3>Read the science</h3><p>Start with the arXiv and PsyArXiv preprints, then follow repository READMEs for dataset structure and citation information.</p><div class="source-actions"><a href="#preprints">Preprints</a></div></article>
+          <article class="op-card"><div class="op-icon" aria-hidden="true">🧪</div><h3>Reuse the datasets</h3><p>Download or clone MEDS, MHDS, and CDS to study LLM behavior across psychological, educational, and societal prompting contexts.</p><div class="source-actions"><a href="#githubs">Data cards</a></div></article>
+          <article class="op-card"><div class="op-icon" aria-hidden="true">🕸️</div><h3>Build network analyses</h3><p>Use TEA_Networks and related cognitive-network approaches to inspect actors, actions, targets, sentiment, and semantic associations.</p><div class="source-actions"><a href="https://github.com/MassimoStel/TEA_Networks" target="_blank" rel="noopener">TEA package</a></div></article>
+          <article class="op-card"><div class="op-icon" aria-hidden="true">🤝</div><h3>Collaborate</h3><p>Use the project outputs as a basis for new studies on AI persuasion, safer tutoring, well-being support, and interpretable AI psychometrics. Get in touch via: massimo.stella-1 @ unitn.it or check our website below. </p><div class="source-actions"><a href="https://cognosco.dipsco.unitn.it/" target="_blank" rel="noopener">CogNosco Lab</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">07 · PENSO's Scientific Events</div>
+            <h2>Past and Upcoming Events</h2>
+          </div>
+          <p>
+            PENSO is a vibrant research project with a strong public engagement component. The CogNosco Lab and PENSO team regularly organize seminars, workshops, and public talks on LLMs, cognitive network science, and AI psychometrics. Check back here for updates on upcoming events or contact us to propose a collaboration or seminar.
+          </p>
+        </div>
+        <div class="placeholder-grid reveal">
+          <div class="placeholder"><div><strong>Team / lab photo </strong><span>TBA</span></div></div>
+          <div class="placeholder"><div><strong>Event / seminar placeholder</strong><span>TBA</span></div></div>
+          <div class="placeholder"><div><strong>Dashboard demo placeholder</strong><span>TBA.</span></div></div>
+          <div class="placeholder"><div><strong>Research poster placeholder</strong><span>TBA</span></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sources" id="sources">
+    <div class="container">
+      <div class="section-kicker">Sources used for this page</div>
+      <h2>Public sources and useful links</h2>
+      <ul class="source-list">
+        <li><a href="https://www.unitn.it/en/research/research-numbers/fis-italian-science-fund" target="_blank" rel="noopener">UniTrento FIS page</a> — lists PENSO among FIS2 grants and identifies the coordinator.</li>
+        <li><a href="https://mag.unitn.it/innovazione/121727/combattere-lansia-con-lia" target="_blank" rel="noopener">UniTrentoMag profile</a> — project scope, funding, milestones, team, experiments, and technology-transfer goals.</li>
+        <li><a href="https://www.cogsci.unitn.it/en/1333/cognosco-lab" target="_blank" rel="noopener">CogNosco Lab institutional page</a> — lab focus on cognitive data science, network science, AI psychometrics, and complex systems.</li>
+        <li><a href="https://arxiv.org/abs/2604.27624" target="_blank" rel="noopener">CDS arXiv preprint</a> — <em>Mapping how LLMs debate societal issues…</em></li>
+        <li><a href="https://github.com/NaviDATA-Repos/PENSO_Data_WP-ConvinceMe_FIS2_UniTrento" target="_blank" rel="noopener">CDS / ConvinceMe GitHub</a> — dataset, graphical abstract, pooling system, model list.</li>
+        <li><a href="https://arxiv.org/abs/2604.27618" target="_blank" rel="noopener">MEDS arXiv preprint</a> — <em>Math Education Digital Shadows…</em></li>
+        <li><a href="https://github.com/MassimoStel/MEDS" target="_blank" rel="noopener">MEDS GitHub</a> — raw dataset structure, models, contributors, PENSO logo.</li>
+        <li><a href="https://github.com/MassimoStel/MEDS-pooling-system" target="_blank" rel="noopener">MEDS Pooling System</a> — interactive dashboard and programmatic API.</li>
+        <li><a href="https://github.com/MassimoStel/MHDS" target="_blank" rel="noopener">MHDS GitHub</a> — mental-health dataset structure, codebook, data pipeline, model legend.</li>
+        <li><a href="https://github.com/MassimoStel/MHDS-pooling-system" target="_blank" rel="noopener">MHDS Pooling System</a> — dashboard, installation, export and API details.</li>
+        <li><a href="https://osf.io/preprints/psyarxiv/7zhvr_v1" target="_blank" rel="noopener">MHDS PsyArXiv preprint</a> — cited by the MHDS pooling repository.</li>
+        <li><a href="https://github.com/MassimoStel/TEA_Networks" target="_blank" rel="noopener">TEA_Networks GitHub</a> — Target–Event–Agent networks package, features, installation, citation, and license.</li>
+        <li><a href="https://raw.githubusercontent.com/MassimoStel/MHDS/main/NewLogoCognosco.png" target="_blank" rel="noopener">CogNosco logo asset</a> — public logo used in the header, slider, and visual identity panel.</li>
+      </ul>
+      <p class="footer-note">
+        Deployment note: this file is self-contained except for external fonts and images loaded from public GitHub raw URLs. For long-term hosting, copy the logo and figures into a local <code>assets/</code> folder and update the image paths.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('mindCanvas');
+    const ctx = canvas.getContext('2d');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w, h, nodes, tokenTimer = 0;
+
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seedNodes();
+    }
+
+    function seedNodes() {
+      const count = Math.max(34, Math.min(82, Math.floor(w / 16)));
+      nodes = Array.from({ length: count }, (_, i) => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.33,
+        vy: (Math.random() - 0.5) * 0.33,
+        r: i % 9 === 0 ? 3.2 : 2.2,
+        label: ['LLM', '0', '1', 'ψ', 'N'][i % 5]
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalAlpha = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        if (!prefersReducedMotion) {
+          a.x += a.vx; a.y += a.vy;
+          if (a.x < -10 || a.x > w + 10) a.vx *= -1;
+          if (a.y < -10 || a.y > h + 10) a.vy *= -1;
+        }
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 145) {
+            ctx.strokeStyle = `rgba(14, 116, 174, ${0.15 * (1 - dist / 145)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      nodes.forEach((n, idx) => {
+        ctx.beginPath();
+        ctx.fillStyle = idx % 9 === 0 ? 'rgba(7, 89, 133, .72)' : 'rgba(14, 165, 233, .52)';
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+        if (idx % 11 === 0) {
+          ctx.font = '600 12px IBM Plex Mono, monospace';
+          ctx.fillStyle = 'rgba(7, 42, 69, .30)';
+          ctx.fillText(n.label, n.x + 7, n.y - 7);
+        }
+      });
+      tokenTimer++;
+      if (!prefersReducedMotion) requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+    draw();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const repoCards = document.querySelectorAll('.repo-card');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        const filter = btn.dataset.filter;
+        repoCards.forEach(card => {
+          const show = filter === 'all' || card.dataset.type.includes(filter);
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-parallax-slider]').forEach(slider => {
+      const track = slider.querySelector('.parallax-track');
+      const slides = Array.from(slider.querySelectorAll('.parallax-slide'));
+      const dots = Array.from(slider.querySelectorAll('.parallax-dot'));
+      let active = 0;
+      let timer = null;
+
+      function showSlide(index) {
+        active = (index + slides.length) % slides.length;
+        track.style.transform = `translateX(${-active * 100}%)`;
+        slides.forEach((slide, i) => slide.classList.toggle('is-active', i === active));
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === active));
+      }
+
+      function startAutoPlay() {
+        if (prefersReducedMotion) return;
+        stopAutoPlay();
+        timer = window.setInterval(() => showSlide(active + 1), 6200);
+      }
+
+      function stopAutoPlay() {
+        if (timer) window.clearInterval(timer);
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          showSlide(i);
+          startAutoPlay();
+        });
+      });
+
+      slider.addEventListener('mouseenter', stopAutoPlay);
+      slider.addEventListener('mouseleave', startAutoPlay);
+      showSlide(0);
+      startAutoPlay();
+    });
+
+    function updateParallaxImages() {
+      document.querySelectorAll('.parallax-image').forEach(image => {
+        const rect = image.parentElement.getBoundingClientRect();
+        const midpoint = rect.top + rect.height / 2;
+        const viewportMid = window.innerHeight / 2;
+        const offset = (midpoint - viewportMid) * -0.035;
+        image.style.setProperty('--parallax-y', `${Math.max(-22, Math.min(22, offset))}px`);
+      });
+    }
+    window.addEventListener('scroll', updateParallaxImages, { passive: true });
+    window.addEventListener('resize', updateParallaxImages, { passive: true });
+    updateParallaxImages();
+  </script>
+</body>
+</html>
